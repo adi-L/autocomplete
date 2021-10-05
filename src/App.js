@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import AutoCompleteWithChipsComponent from './components/autocompleteWithChips';
+import ReactDOM from 'react-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class AutoCompleteWithChips {
+    constructor(target, props) {
+        const {options = [],onChange,placeholder,label} = props;
+        this.elementRef = React.createRef();
+        this.target = target;
+        setTimeout(() => {
+        this.update = this.elementRef.current.update;
+        }, 0);
+        debugger
+        ReactDOM.render(<AutoCompleteWithChipsComponent ref={this.elementRef} placeholder={placeholder} label={label} items={options}  onChange={onChange}/>,target)
+    }
 }
+export default AutoCompleteWithChips;
 
-export default App;

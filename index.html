@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+<div id="test"></div>
+
+
+    <script>
+        const items = [
+            {title:"adi",isSelected:true},
+            {title:"assaf"},
+            {title:"yael"},
+            {title:"shay"},
+            {title:"talia"},
+        ]
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const instance = new Autocompletewithchips(document.getElementById('test'), {
+            options: items,
+            label:"test",
+            placeholder:"test",
+            theme:{
+                primary:"#fff",
+            },
+            onChange: (event, items) => {
+
+            }
+        });
+        const items2 = [
+            {title:"adi"},
+            {title:"assaf",isSelected:true},
+            {title:"yael"},
+            {title:"shay"},
+            {title:"talia"},
+        ]
+        // setTimeout(() => {
+        //     instance.update(items2)
+        // }, 1000);
+});
+     
+    </script>
+</body>
+
+</html>
