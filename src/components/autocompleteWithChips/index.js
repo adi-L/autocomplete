@@ -9,31 +9,55 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default React.forwardRef((props, ref) => {
-    const { items, onChange,placeholder,label } = props;
+    const { items, onChange, placeholder, label } = props;
     const [allOptions, setOptions] = React.useState(items);
     const _selectedItems = items.filter(option => option.isSelected);
     const [selectedItems, setSelectedItems] = React.useState(_selectedItems);
 
-    const _onChange = (event,selectedElements) => {
+    const _onChange = (event, selectedElements) => {
         setSelectedItems(selectedElements);
-        onChange(event,selectedElements);
+        onChange(event, selectedElements, allOptions);
     }
     React.useImperativeHandle(ref, () => ({
-        update(newOptions) {
+        init(newOptions) {
             if (Array.isArray(newOptions)) {
                 const cloneState = [...newOptions];
                 const _selectedItems = cloneState.filter(option => option.isSelected);
                 setSelectedItems(_selectedItems)
                 setOptions(cloneState);
             }
-        }
+        },
+        addItem(newOptions, options = { index: null, isSelected: false }) {
+            const {index,isSelected} = options;
+            if (typeof newOptions !== "object") {
+                return console.error("addItem should get object");
+            }
+            if (!newOptions.title) {
+                return console.error("addItem should get object with {title:property}");
+            }
+            if (typeof newOptions.isSelected !== "boolean") {
+                newOptions.isSelected = typeof isSelected === "boolean" ? isSelected : false;
+            }
+            if (newOptions.isSelected) {
+                const cloneSelectedItems = [...selectedItems];
+                cloneSelectedItems.unshift(newOptions);
+                setSelectedItems(cloneSelectedItems);
+            }
+            const cloneOptions = [...allOptions];
+            if (typeof index !== "number") {
+                cloneOptions.unshift(newOptions);
+                setOptions(cloneOptions);
+            } else {
+                cloneOptions.splice(index, 0, newOptions);
+            }
+        },
     }));
     return <CustomizedHook onChange={_onChange} placeholder={placeholder} label={label} selectedOptions={selectedItems} options={allOptions} />;
 });
 
 function CustomizedHook(props) {
-    const { options = [],selectedOptions =[], onChange,placeholder,label} = props;
-  
+    const { options = [], selectedOptions = [], onChange, placeholder, label } = props;
+
     return (
         <Autocomplete
             onChange={(event, selectedItems) => {
