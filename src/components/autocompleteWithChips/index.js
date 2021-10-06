@@ -28,7 +28,8 @@ export default React.forwardRef((props, ref) => {
             }
         },
         addItem(newOptions, options = { index: null, isSelected: false }) {
-            const {index,isSelected} = options;
+            const {index} = options;
+            let {isSelected} = options;
             if (typeof newOptions !== "object") {
                 return console.error("addItem should get object");
             }
@@ -36,19 +37,21 @@ export default React.forwardRef((props, ref) => {
                 return console.error("addItem should get object with {title:property}");
             }
             if (typeof newOptions.isSelected !== "boolean") {
-                newOptions.isSelected = typeof isSelected === "boolean" ? isSelected : false;
-            }
-            if (newOptions.isSelected) {
-                const cloneSelectedItems = [...selectedItems];
-                cloneSelectedItems.unshift(newOptions);
-                setSelectedItems(cloneSelectedItems);
+                newOptions.isSelected = isSelected = typeof isSelected === "boolean" ? isSelected : false;
             }
             const cloneOptions = [...allOptions];
             if (typeof index !== "number") {
                 cloneOptions.unshift(newOptions);
+                cloneOptions.forEach(o=>delete o.isSelected);
+                
                 setOptions(cloneOptions);
             } else {
                 cloneOptions.splice(index, 0, newOptions);
+            }
+                if (isSelected) {
+                const cloneSelectedItems = [...selectedItems];
+                cloneSelectedItems.unshift(newOptions);
+                setSelectedItems(prev=>[...prev,newOptions]);
             }
         },
     }));
@@ -68,6 +71,7 @@ function CustomizedHook(props) {
             options={options}
             disableCloseOnSelect
             value={selectedOptions}
+            // isOptionEqualToValue={(option, value) => option.title === value.title}
             getOptionLabel={(option) => option.title}
             renderOption={(props, option, { selected }) => (
                 <li {...props}>
