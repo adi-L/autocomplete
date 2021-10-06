@@ -16,7 +16,7 @@ export default React.forwardRef((props, ref) => {
 
     const _onChange = (event, selectedElements) => {
         setSelectedItems(selectedElements);
-        onChange(event, selectedElements, allOptions);
+        onChange(selectedElements, allOptions, event);
     }
     React.useImperativeHandle(ref, () => ({
         init(newOptions) {
@@ -52,6 +52,7 @@ export default React.forwardRef((props, ref) => {
                 const cloneSelectedItems = [...selectedItems];
                 cloneSelectedItems.unshift(newOptions);
                 setSelectedItems(prev=>[...prev,newOptions]);
+                onChange(cloneSelectedItems, allOptions,null);
             }
         },
     }));
