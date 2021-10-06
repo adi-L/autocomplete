@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 
 export const Listbox = styled('ul')(
     ({ theme }) => `
-  width: 300px;
+  width: 100%;
   margin: 2px 0 0;
   padding: 0;
   position: absolute;

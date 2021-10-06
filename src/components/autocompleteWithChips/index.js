@@ -80,7 +80,6 @@ function CustomizedHook(props) {
                     {option.title}
                 </li>
             )}
-            style={{ width: 500 }}
             renderInput={(params) => (
                 <TextField {...params} label={label} placeholder={placeholder} />
             )}
