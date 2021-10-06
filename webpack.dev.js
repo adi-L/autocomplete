@@ -6,7 +6,6 @@ module.exports = (env, argv) => {
   return merge(common(env, argv), {
     mode: 'development',
     devtool: 'inline-source-map',
-    watch: true,
     devServer: {
       contentBase: __dirname + "./dist",
       hot: true,
